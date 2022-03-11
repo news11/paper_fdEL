@@ -1,4 +1,4 @@
-division00 <- function(x, y) {  # 20210404 change it to 0 / 0 = 0
+division00 <- function(x, y) {  
   # A modified / function so that  0 / 0 = 0
   # Args:
   #   x, y: two numbers or vectors

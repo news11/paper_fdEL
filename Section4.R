@@ -3,33 +3,33 @@
 # ------------------------------------------------------------------------------------------------------------------
 # ------------ load the packages -------------- #
 rm(list=ls())
+if (!require(devtools)) {
+  install.packages("devtools") # we use version 2.3.2 of this package, which is needed for installing the fdEL and fregion packages below
+  require(devtools)
+}
 if (!require(fdEL)) {
-  install.packages("E:\\R_package\\fdEL", repos = NULL, type = "source")
-  require(fdEL) # this package is needed for implementing the EL procedures, the Cao and Cao2 confidence bands, and the Geo and Fmax tests
+  install_github("news11/fdEL")
+  require(fdEL) # we use version 0.0.0.9000 of this package, which is needed for implementing the EL procedures, the Cao and Cao2 confidence bands, and the Geo and Fmax tests
 } 
 if (!require(fdANOVA)) {
   install.packages("fdANOVA")
-  require(fdANOVA) # this package is needed for implementing the test TRP in the function fanova.tests
+  require(fdANOVA) # we use version 0.1.2 of this package, which is needed for implementing the test TRP in the function fanova.tests
 }
 if (!require(SCBmeanfd)) {
   install.packages("SCBmeanfd")
-  require(SCBmeanfd) # this package is needed for implementing the MFD confidence band
+  require(SCBmeanfd) # we use version 1.2.2 of this package, which is needed for implementing the MFD confidence band
 }
 if (!require(KernSmooth)) {
   install.packages("KernSmooth")
-  require(KernSmooth) # this package is needed for the locpoly function inside the function scb.mean00
-}
-if (!require(devtools)) {
-  install.packages("devtools") # this package is needed for installing the fregion package below
-  require(devtools)
+  require(KernSmooth) # we use version 2.23-17 of this package, which is needed for the locpoly function inside the function scb.mean00
 }
 if (!require(fregion)) {
   install_github("hpchoi/fregion")
-  require(fregion) # this package is needed for implementing the Geo confidence band
+  require(fregion) # we use version 0.0934 of this package, which is needed for implementing the Geo confidence band
 }
 if (!require(plotrix)) {
   install.packages("plotrix")
-  require(plotrix) # this package is needed for plotted the right panel of Figure 4
+  require(plotrix) # we use version 3.8-2 of this package, which is needed for plotted the right panel of Figure 4
 }
 
 # ------------ user input -------------- #
@@ -37,10 +37,10 @@ if (!require(plotrix)) {
 parameters = list()
 parameters$by_agrid = 1 # the mesh of the grid of activity levels over which the occupation time is evaluated.
 parameters$tau = 1
-parameters$right_endpt = c(0.05, 0.025, 0) # the \mathbb{Z} set in Supplement Section 6
+parameters$right_endpt = c(0.05, 0.025, 0) # the \mathbb{Z} set in Supplement Section 5.2
 parameters$nboot = 1000 # number of bootstrap samples
 parameters$alpha_vec = 0.05 # significance level
-parameters$dir_path_source = "E:\\R_program\\paper_fnl_codes_20220111\\source" # where the source files are
+parameters$dir_path_source = "E:\\R_program\\paper_fdEL\\source" # where the source files 'scb.mean00.R' and 'Geoband.R' are; please manually download them from "https://github.com/news11/paper_fdEL"
 parameters$dir_path2 = "E:\\R_program\\fnl_mil_20210607" # where the resulting files can be saved
 
 # ------------ building occupation time curve from raw activity data Xt -------------- #
@@ -100,7 +100,7 @@ set.seed(1009, kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind
 (fanova <- fanova.tests(x = t(Ta_mat), group.label = anova_onefactor_group, test = c("TRP"), params = list(paramTRP = list(B.TRP = parameters$nboot)))) 
 fanova$TRP$pvalues.WTPS # p-value for comparing all 4 groups using the WTPS test among the TRP tests in the function fanova.tests in the package fdANOVA; p-value == 0 means `p < 1 / parameters$nboot'
 # result 5 in Section 4---numbers from the second to the last rows of Table 3:
-group_sub = c(3, 4) # change this to c(3, 4), c(1, 3), c(2, 4) for different pairwise comparisons among the groups
+group_sub = c(1, 2) # change this to c(3, 4), c(1, 3), c(2, 4) for different pairwise comparisons among the groups
 set.seed(1008+sum(group_sub), kind = "Mersenne-Twister", normal.kind = "Inversion", sample.kind = "Rejection")
 test_out_sub = elfanova(Ta = Ta[group_sub], as = as, n_boot = parameters$nboot, as_right_ind_keep_as0 = right_ind_keep_as0)
 c(test_out_sub$out_sup_pval, test_out_sub$out_sup_EP_pval) # p-values for comparing groups in the group_sub vector using the EL and the Wald-type tests, respectively; = 0 means `p < 1 / parameters$nboot'

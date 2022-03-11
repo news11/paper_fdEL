@@ -3,32 +3,31 @@ by Hsin-wen Chang and Ian W. McKeague
 
 
 OVERVIEW
-The documented R code for implementing our method and the NHANES occupation time data used in this paper are posted on Github (http://github.com/news11/fdEL) as an R package. This package is used in the following code named after different (sub)sections to reproduce the results in those (sub)sections of the paper.
+The following code is named after different (sub)sections to reproduce the results in those (sub)sections of the paper.
 
 
 REQUIREMENTS
-The attached code uses `fdEL' package (http://github.com/news11/fdEL) hosted on Github. To install this package from Github, R package `devtool' is required. Other than these, R package `refund' and `fda' are used. The attached code installs and loads these packages.
+The attached code uses `fdEL' package from http://github.com/news11/fdEL, which includes documented R code for implementing the proposed EL methods, along with the NHANES data used in the paper. To install this package from Github, R package `devtool' is required. The attached code installs and loads these packages.
 
 
 RECOMMENDATION
-***use similar write-up: Although it takes little time to achieve confidence bands and perform hypothesis testings suggested in the paper, reapeating those multiple times for simulation study purpose can be time consuming. Since the methods depend heavily on vector/matrix operations, we recommend using better BLAS libraries, like openblas or Intel(R) MKL to reduce computation time.
+Although it takes little time to implement the methods in the paper, repeating those multiple times for simulation study purpose can be time consuming. We recommend using parallel computing through a server or cluster.
 
 
-SECTION 4.1
-This section performs hypothesis testings on simulated data. The simulation size, sample size, smoothness of curves should be adjusted as desired. 
-***use similar write-up: Note that "Bs", the parametric bootstrap based band -- which is not a novel contribution of the paper but is included as a comparison -- takes the most computation time and therefore is turned off by default. It can be easily tuned on by including "Bs" for the types of bands to achieve.
+SECTION 3.1_1
+This section constructs simultaneous confidence bands based on simulated data in the first example of Section 3.1 of the paper. The parameters for simulations can be adjusted to obtain the numbers in the first four columns of Table 1 of the paper.
 
 
-SECTION 4.2
-This section compares shapes of confidence bands and local coverage rates. The code was modified to be more concise than the original code used in the paper, by utilizing functions written later on.
+SECTION 3.1_2
+This section constructs simultaneous confidence bands based on simulated data in the second example of Section 3.1 of the paper. The parameters for simulations can be adjusted to obtain the numbers in the last four columns of Table 1 of the paper.
 
 
-SECTION 4.3
-This section compares effects of different smoothing technique and those of more complicated data structure. This is the same original code used is the paper, and therefore, is lengthier than the code in Section 4.2 above.
+SECTION 3.2
+This section conducts functional ANOVA tests based on simulated data in Section 3.2 of the paper. The parameters for simulations can be adjusted to obtain the numbers in Table 2 of the paper.
 
 
-SECTION 5
-This section includes a real data example. Since the raw activity data from the NHANESs website is huge, the R package contains only the cleaned data and the code for the cleaning (in data-raw/DATASET.R).
+SECTION 4
+This section analyzes real data from the NHANES study. The results in Section 4 of the paper can be reproduced using this file.
 
 
 Hsin-wen Chang, Ph.D. 
